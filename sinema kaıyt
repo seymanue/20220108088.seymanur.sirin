@@ -1,0 +1,112 @@
+import java.util.Scanner;
+
+public class SinemaSistemi {
+    static String[] filmler = {
+        "Yıldızlararası", "Matrix", "Inception", "Prestij", "Joker",
+        "Parazit", "Baba", "Titanik", "Hızlı ve Öfkeli", "Avatar"
+    };
+    static int[] sureler = {169, 136, 148, 130, 122, 132, 175, 195, 107, 162};
+    static String[] turler = {
+        "Bilim Kurgu", "Aksiyon", "Gerilim", "Dram", "Psikolojik",
+        "Gerilim", "Suç", "Romantik", "Aksiyon", "Fantastik"
+    };
+
+    static String[] musteriler = {
+        "Ahmet Yılmaz", "Ayşe Demir", "Mehmet Kara", "Zeynep Şahin", "Ali Can",
+        "Elif Nur", "Mert Aydın", "Hatice Güneş", "Emre Koç", "Fatma Kılıç"
+    };
+    static String[] emailler = {
+        "ahmet@gmail.com", "ayse@hotmail.com", "mehmet@yahoo.com", "zeynep@mail.com", "ali@gmail.com",
+        "elif@hotmail.com", "mert@outlook.com", "hatice@mail.com", "emre@site.com", "fatma@gmail.com"
+    };
+
+    static int[][] biletler = new int[20][10];
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int secim;
+
+        do {
+            System.out.println("\n--- Sinema Müşteri Kayıt Sistemi ---");
+            System.out.println("1. Bilet Oluştur");
+            System.out.println("2. Filmleri Listele");
+            System.out.println("3. Müşterileri Listele");
+            System.out.println("4. Biletleri Listele");
+            System.out.println("0. Çıkış");
+            System.out.print("Seçiminiz: ");
+            secim = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (secim) {
+                case 1:
+                    biletOlustur(scanner);
+                    break;
+                case 2:
+                    filmleriListele();
+                    break;
+                case 3:
+                    musterileriListele();
+                    break;
+                case 4:
+                    biletleriListele();
+                    break;
+                case 0:
+                    System.out.println("Program sonlandırıldı.");
+                    break;
+                default:
+                    System.out.println("Geçersiz seçim.");
+            }
+
+        } while (secim != 0);
+
+        scanner.close();
+    }
+
+    static void filmleriListele() {
+        System.out.println("\n--- Filmler ---");
+        for (int i = 0; i < filmler.length; i++) {
+            System.out.println(i + ". " + filmler[i] + " - " + sureler[i] + " dk - " + turler[i]);
+        }
+    }
+
+    static void musterileriListele() {
+        System.out.println("\n--- Müşteriler ---");
+        for (int i = 0; i < musteriler.length; i++) {
+            System.out.println(i + ". " + musteriler[i] + " (" + emailler[i] + ")");
+        }
+    }
+
+    static void biletOlustur(Scanner scanner) {
+        musterileriListele();
+        System.out.print("Müşteri numarası: ");
+        int mIndex = scanner.nextInt();
+
+        filmleriListele();
+        System.out.print("Film numarası: ");
+        int fIndex = scanner.nextInt();
+
+        if (mIndex >= 0 && mIndex < musteriler.length &&
+            fIndex >= 0 && fIndex < filmler.length) {
+            biletler[mIndex][fIndex] = 1;
+            System.out.println("✅ Bilet oluşturuldu: " + musteriler[mIndex] + " → " + filmler[fIndex]);
+        } else {
+            System.out.println("❌ Geçersiz giriş.");
+        }
+    }
+
+    static void biletleriListele() {
+        System.out.println("\n--- Biletler ---");
+        for (int i = 0; i < musteriler.length; i++) {
+            System.out.print(musteriler[i] + " → ");
+            boolean var = false;
+            for (int j = 0; j < filmler.length; j++) {
+                if (biletler[i][j] == 1) {
+                    System.out.print(filmler[j] + ", ");
+                    var = true;
+                }
+            }
+            if (!var) System.out.print("Bilet yok");
+            System.out.println();
+        }
+    }
+}
